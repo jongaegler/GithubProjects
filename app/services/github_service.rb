@@ -29,7 +29,7 @@ class GithubService
   def import_project(project_hash)
     Project.find_or_create_by(github_url: project_hash['url']) do |project|
       project.name = project_hash['name']
-      project.stars = project_hash['stars']
+      project.stars = project_hash['stargazers_count']
       project.user_name = project_hash['owner']['login']
     end
   end
@@ -39,7 +39,7 @@ class GithubService
 
   private def search_params
     # fork:false is default
-    # pluses to separate the params aren't working right,
+    # '+' to separate the params aren't working right,
     # but spaces seem to be converting to + so let's run with it.
     "#{language_params} #{star_params} #{updated_at_params} #{license_params}"
   end
