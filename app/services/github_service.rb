@@ -21,7 +21,7 @@ class GithubService
       request.url('/search/repositories')
       request.params['q'] = search_params
       request.params['page'] = page
-      request.params['sort'] = created
+      request.params['sort'] = 'created'
     end
 
     JSON.parse(response.body)['items'] # 30 per page
