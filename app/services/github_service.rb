@@ -30,7 +30,7 @@ class GithubService
     Project.find_or_create_by(github_url: project_hash['url']) do |project|
       project.name = project_hash['name']
       project.stars = project_hash['stars']
-      project.user_id = project_hash['owner']['login']
+      project.user_name = project_hash['owner']['login']
     end
   end
 
