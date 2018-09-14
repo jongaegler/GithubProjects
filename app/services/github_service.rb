@@ -4,13 +4,30 @@ class GithubService
   LICENSE = %w[apache-2.0 gpl lgpl mit]
   LANGUAGES = ['Ruby', 'Javascript']
 
-  def get_projects
+  def initialize
+    @page = 1
+  end
+
+  def run
+    projects = get_projects(@page)
+    return unless projects
+    puts 'hi'
+    @page += 1
+    import_projects(projects)
+    run
+  end
+
+  def get_projects(page)
     response = client.get do |request|
       request.url('/search/repositories')
       request.params['q'] = search_params
+      request.params['page'] = page
     end
 
-    JSON.parse(response.body)
+    JSON.parse(response.body)['items'] # 30 per page
+  end
+
+  def import_projects(projects)
   end
 
   private def search_params
