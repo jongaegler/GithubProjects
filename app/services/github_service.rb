@@ -11,9 +11,8 @@ class GithubService
   def run
     projects = get_projects(@page)
     return unless projects
-    puts 'hi'
     @page += 1
-    import_projects(projects)
+    projects.each { |project| import_project(project) }
     run
   end
 
@@ -27,7 +26,15 @@ class GithubService
     JSON.parse(response.body)['items'] # 30 per page
   end
 
-  def import_projects(projects)
+  def import_project(project_hash)
+    Project.find_or_create_by(github_url: project_hash['url']) do |project|
+      project.name = project_hash['name']
+      project.stars = project_hash['stars']
+      project.user_id = project_hash['owner']['login']
+    end
+  end
+
+  def create_project
   end
 
   private def search_params
