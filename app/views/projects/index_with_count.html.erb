@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Projects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Min</th>
+      <th>Max</th>
+      <th>Count</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @counts.each do |count| %>
+      <tr>
+        <td><%= count[:min] %></td>
+        <td><%= count[:max] %></td>
+        <td><%= count[:count] %></td>
+        <td><%= link_to 'inspect', projects_path(count) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

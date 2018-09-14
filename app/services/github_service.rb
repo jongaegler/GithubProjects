@@ -1,6 +1,6 @@
 class GithubService
   BASE_URL = 'https://api.github.com'
-  STAR_RANGE = '1..2000'
+  STAR_RANGE = (1..Project::STAR_MAX).to_s
   LICENSE = %w[apache-2.0 gpl lgpl mit]
   LANGUAGES = ['Ruby', 'Javascript']
 
