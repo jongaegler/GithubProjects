@@ -28,7 +28,7 @@ class GithubService
   end
 
   def import_project(project_hash)
-    Project.find_or_create_by(github_url: project_hash['url']) do |project|
+    Project.find_or_create_by(github_url: project_hash['html_url']) do |project|
       project.name = project_hash['name']
       project.stars = project_hash['stargazers_count']
       project.user_name = project_hash['owner']['login']
