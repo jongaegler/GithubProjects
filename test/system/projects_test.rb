@@ -17,7 +17,7 @@ class ProjectsTest < ApplicationSystemTestCase
     fill_in "Github Url", with: @project.github_url
     fill_in "Name", with: @project.name
     fill_in "Stars", with: @project.stars
-    fill_in "User", with: @project.user_id
+    fill_in "User", with: @project.user_name
     click_on "Create Project"
 
     assert_text "Project was successfully created"
@@ -31,7 +31,7 @@ class ProjectsTest < ApplicationSystemTestCase
     fill_in "Github Url", with: @project.github_url
     fill_in "Name", with: @project.name
     fill_in "Stars", with: @project.stars
-    fill_in "User", with: @project.user_id
+    fill_in "User", with: @project.user_name
     click_on "Update Project"
 
     assert_text "Project was successfully updated"
