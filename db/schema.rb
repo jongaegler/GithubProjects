@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2018_09_14_182734) do
     t.integer "stars"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index [nil], name: "index_projects_on_user_id"
+    t.index ["user_name"], name: "index_projects_on_user_name"
   end
 
 end

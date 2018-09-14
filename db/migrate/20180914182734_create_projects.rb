@@ -3,7 +3,7 @@ class CreateProjects < ActiveRecord::Migration[5.2]
     create_table :projects do |t|
       t.string :name
       t.string :user_name
-      t.index :user_id
+      t.index :user_name
       t.string :github_url
       t.integer :stars
 
