@@ -1,30 +1,43 @@
 class GithubService
   BASE_URL = 'https://api.github.com'
-  STAR_RANGE = (1..Project::STAR_MAX).to_s
   LICENSE = %w[apache-2.0 gpl lgpl mit]
   LANGUAGES = ['Ruby', 'Javascript']
 
   def initialize
     @page = 1
+    @total = 0
   end
 
   def run
-    projects = get_projects(@page)
-    return unless projects
-    @page += 1
+    projects = get_projects
     projects.each { |project| import_project(project) }
+
+    if @page == 10
+      @page = 1
+    else
+      @page += 1
+    end
+
     run
   end
 
-  def get_projects(page)
+  def get_projects
     response = client.get do |request|
       request.url('/search/repositories')
       request.params['q'] = search_params
-      request.params['page'] = page
-      request.params['sort'] = 'created'
+      request.params['per_page'] = 100
+      request.params['page'] = @page
+      request.params['sort'] = 'stars'
     end
 
-    JSON.parse(response.body)['items'] # 30 per page
+    handle_response(response)
+  end
+
+  def handle_response(response)
+    parsed_response = JSON.parse(response.body)
+    @total = parsed_response['total_count']
+
+    parsed_response['items']
   end
 
   def import_project(project_hash)
@@ -33,9 +46,6 @@ class GithubService
       project.stars = project_hash['stargazers_count']
       project.user_name = project_hash['owner']['login']
     end
-  end
-
-  def create_project
   end
 
   private def search_params
@@ -50,7 +60,7 @@ class GithubService
   end
 
   private def star_params
-    "stars:#{STAR_RANGE}"
+    "stars:#{(1..Project::STAR_MAX).to_s}"
   end
 
   private def updated_at_params
