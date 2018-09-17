@@ -5,15 +5,18 @@ class GithubService
 
   def initialize
     @page = 1
-    @total = 0
+    @max_stars = Project::STAR_MAX
   end
 
   def run
     projects = get_projects
+
+    return if projects.blank?
     projects.each { |project| import_project(project) }
 
-    if @page == 10
+    if @page == 10 && @max_stars != 1
       @page = 1
+      @max_stars = Project.last.stars
     else
       @page += 1
     end
@@ -60,7 +63,7 @@ class GithubService
   end
 
   private def star_params
-    "stars:#{(1..Project::STAR_MAX).to_s}"
+    "stars:#{(1..@max_stars).to_s}"
   end
 
   private def updated_at_params
