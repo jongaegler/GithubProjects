@@ -2,7 +2,7 @@ class Project < ApplicationRecord
   STAR_MAX = 2000
 
   def self.count_in_ranges
-    mins = 10.times.map { |n| n * 200 + 1 }
+    mins = Array.new(10) { |n| n * 200 + 1 }
     mins.map do |min|
       max = min + 199
       {

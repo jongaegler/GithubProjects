@@ -4,11 +4,9 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    if params[:min] && params[:max]
-      @projects = Project.where(stars: params[:min].to_i..params[:max].to_i)
-    else
-      @projects = Project.all
-    end
+    @projects = params[:min] ?
+      Project.where(stars: params[:min].to_i..params[:max].to_i) :
+      Project.all
   end
 
   def index_with_count
