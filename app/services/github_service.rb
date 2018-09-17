@@ -31,6 +31,7 @@ class GithubService
       request.params['per_page'] = 100
       request.params['page'] = @page
       request.params['sort'] = 'stars'
+      request.params['access_token'] = ENV['ACCESS_TOKEN']
     end
 
     handle_response(response)
