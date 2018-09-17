@@ -33,4 +33,7 @@ chdir APP_ROOT do
 
   puts "\n== Restarting application server =="
   system! 'bin/rails restart'
+
+  puts "\n== Importing Github Repos"
+  system! 'bin/rails import'
 end

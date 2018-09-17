@@ -14,7 +14,8 @@ class GithubService
     return if projects.blank?
     projects.each { |project| import_project(project) }
 
-    if @page == 10 && @max_stars != 1
+    if @page == 10
+      return if @max_stars == 1
       @page = 1
       @max_stars = Project.last.stars
     else
@@ -27,6 +28,7 @@ class GithubService
   def get_projects
     response = client.get do |request|
       request.url('/search/repositories')
+
       request.params['q'] = search_params
       request.params['per_page'] = 100
       request.params['page'] = @page
@@ -39,7 +41,6 @@ class GithubService
 
   def handle_response(response)
     parsed_response = JSON.parse(response.body)
-    @total = parsed_response['total_count']
 
     parsed_response['items']
   end
